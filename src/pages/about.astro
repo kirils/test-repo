@@ -1,0 +1,126 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="About — AstroDemo"
+  description="Learn about AstroDemo: an open-source Astro starter showcasing static site generation, Content Collections, and accessible design."
+>
+  <div class="container page-wrapper">
+    <article aria-labelledby="about-heading">
+      <h1 id="about-heading">About AstroDemo</h1>
+      <p class="lead">
+        AstroDemo is an open-source demonstration site that shows how to build a
+        fast, accessible, content-focused website with the
+        <a href="https://astro.build" rel="noopener noreferrer" target="_blank">Astro</a>
+        framework.
+      </p>
+
+      <section aria-labelledby="goals-heading">
+        <h2 id="goals-heading">Project goals</h2>
+        <ul>
+          <li>Demonstrate Astro 4's core features in a realistic project structure.</li>
+          <li>Ship zero unnecessary JavaScript — every kilobyte is intentional.</li>
+          <li>Meet WCAG 2.1 AA accessibility standards out of the box.</li>
+          <li>Provide a clear starting point for AI-assisted development workflows.</li>
+        </ul>
+      </section>
+
+      <section aria-labelledby="stack-heading">
+        <h2 id="stack-heading">Tech stack</h2>
+        <dl class="stack-list">
+          <div class="stack-row">
+            <dt>Framework</dt>
+            <dd>Astro 4 (static output — no server runtime)</dd>
+          </div>
+          <div class="stack-row">
+            <dt>Language</dt>
+            <dd>TypeScript in strict mode throughout</dd>
+          </div>
+          <div class="stack-row">
+            <dt>Styling</dt>
+            <dd>CSS custom properties for design tokens; scoped styles per component</dd>
+          </div>
+          <div class="stack-row">
+            <dt>Content</dt>
+            <dd>Markdown via Astro Content Collections, validated with Zod</dd>
+          </div>
+          <div class="stack-row">
+            <dt>Package manager</dt>
+            <dd>npm</dd>
+          </div>
+        </dl>
+      </section>
+
+      <section aria-labelledby="license-heading">
+        <h2 id="license-heading">License</h2>
+        <p>
+          AstroDemo is released under the
+          <a href="https://opensource.org/licenses/MIT" rel="noopener noreferrer" target="_blank">
+            MIT License
+          </a>.
+          You are free to use, modify, and distribute it for any purpose.
+        </p>
+      </section>
+    </article>
+  </div>
+</BaseLayout>
+
+<style>
+  .page-wrapper {
+    padding-block: var(--space-12);
+    max-width: var(--prose-width);
+  }
+
+  h1 {
+    margin-bottom: var(--space-6);
+  }
+
+  .lead {
+    font-size: var(--text-lg);
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-8);
+    line-height: 1.7;
+  }
+
+  section {
+    margin-top: var(--space-8);
+  }
+
+  h2 {
+    margin-bottom: var(--space-4);
+  }
+
+  ul {
+    padding-left: var(--space-6);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .stack-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .stack-row {
+    display: grid;
+    grid-template-columns: 10rem 1fr;
+    gap: var(--space-4);
+    align-items: baseline;
+  }
+
+  dt {
+    font-weight: 600;
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  dd {
+    margin: 0;
+    color: var(--color-text);
+  }
+</style>

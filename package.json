@@ -1,0 +1,16 @@
+{
+  "name": "test-repo",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.4",
+    "astro": "^4.16.18",
+    "typescript": "^5.7.3"
+  }
+}

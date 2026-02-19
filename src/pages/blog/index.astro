@@ -1,0 +1,67 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Card from '../../components/Card.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+
+<BaseLayout
+  title="Blog — AstroDemo"
+  description="Articles about Astro, TypeScript, CSS, and building fast, accessible websites."
+>
+  <div class="container page-wrapper">
+    <header class="page-header">
+      <h1>Blog</h1>
+      <p class="page-subtitle">
+        {posts.length} {posts.length === 1 ? 'post' : 'posts'} on Astro, TypeScript, and the web platform.
+      </p>
+    </header>
+
+    {posts.length === 0 ? (
+      <p class="empty-state">No posts published yet. Check back soon.</p>
+    ) : (
+      <ul class="post-list" role="list">
+        {posts.map((post) => (
+          <li>
+            <Card
+              title={post.data.title}
+              description={post.data.description}
+              href={`/blog/${post.slug}`}
+              pubDate={post.data.pubDate}
+            />
+          </li>
+        ))}
+      </ul>
+    )}
+  </div>
+</BaseLayout>
+
+<style>
+  .page-wrapper {
+    padding-block: var(--space-12);
+  }
+
+  .page-header {
+    margin-bottom: var(--space-8);
+  }
+
+  .page-subtitle {
+    margin-top: var(--space-3);
+    font-size: var(--text-lg);
+    color: var(--color-text-muted);
+  }
+
+  .empty-state {
+    color: var(--color-text-muted);
+    font-size: var(--text-lg);
+  }
+
+  .post-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: var(--space-6);
+    list-style: none;
+  }
+</style>
