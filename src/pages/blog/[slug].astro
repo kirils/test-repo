@@ -14,7 +14,7 @@ const { slug } = Astro.props;
 const entry = await getEntry('blog', slug);
 
 if (!entry) {
-  return Astro.redirect('/blog');
+  return Astro.redirect(import.meta.env.BASE_URL + 'blog');
 }
 
 const { Content } = await entry.render();

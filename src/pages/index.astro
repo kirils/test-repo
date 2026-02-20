@@ -4,6 +4,7 @@ import Card from '../components/Card.astro';
 import StarField from '../components/StarField.astro';
 import { getCollection } from 'astro:content';
 
+const base = import.meta.env.BASE_URL;
 const posts = (await getCollection('blog', ({ data }) => !data.draft))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
   .slice(0, 6);
@@ -27,8 +28,8 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft))
         without a single byte of unnecessary JavaScript.
       </p>
       <div class="hero-actions">
-        <a href="/blog" class="btn btn-primary">Read the blog</a>
-        <a href="/about" class="btn btn-secondary">About this project</a>
+        <a href={`${base}blog`} class="btn btn-primary">Read the blog</a>
+        <a href={`${base}about`} class="btn btn-secondary">About this project</a>
       </div>
 
       <!-- Scroll indicator -->
@@ -157,7 +158,7 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft))
       <div class="container">
         <div class="section-header">
           <h2 id="posts-heading" class="section-title">Recent posts</h2>
-          <a href="/blog" class="view-all">View all &rarr;</a>
+          <a href={`${base}blog`} class="view-all">View all &rarr;</a>
         </div>
         <ul class="card-grid" role="list">
           {posts.map((post) => (
@@ -165,7 +166,7 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft))
               <Card
                 title={post.data.title}
                 description={post.data.description}
-                href={`/blog/${post.slug}`}
+                href={`${base}blog/${post.slug}`}
                 pubDate={post.data.pubDate}
               />
             </li>
@@ -183,8 +184,8 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft))
         <p class="cta-desc">Clone the repo, read the docs, and ship a site that scores 100 on Lighthouse out of the box.</p>
       </div>
       <div class="cta-actions">
-        <a href="/about" class="btn btn-primary">Learn more</a>
-        <a href="/blog" class="btn btn-outline">Read the blog</a>
+        <a href={`${base}about`} class="btn btn-primary">Learn more</a>
+        <a href={`${base}blog`} class="btn btn-outline">Read the blog</a>
       </div>
     </div>
   </section>
