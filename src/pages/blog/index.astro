@@ -3,65 +3,256 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Card from '../../components/Card.astro';
 import { getCollection } from 'astro:content';
 
-const posts = (await getCollection('blog', ({ data }) => !data.draft))
+const allPosts = (await getCollection('blog', ({ data }) => !data.draft))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const [featured, ...rest] = allPosts;
+
+// Collect all unique tags
+const allTags = [...new Set(allPosts.flatMap((p) => p.data.tags))].sort();
 ---
 
 <BaseLayout
   title="Blog — AstroDemo"
-  description="Articles about Astro, TypeScript, CSS, and building fast, accessible websites."
+  description="Articles about Astro, TypeScript, CSS, dark mode, and building fast, accessible websites."
 >
-  <div class="container page-wrapper">
-    <header class="page-header">
-      <h1>Blog</h1>
-      <p class="page-subtitle">
-        {posts.length} {posts.length === 1 ? 'post' : 'posts'} on Astro, TypeScript, and the web platform.
+  <!-- Page header -->
+  <section class="blog-hero" aria-labelledby="blog-heading">
+    <div class="container">
+      <div class="eyebrow">Writing</div>
+      <h1 id="blog-heading">Blog</h1>
+      <p class="subtitle">
+        Deep dives into Astro, TypeScript, CSS, and the craft of building fast, accessible websites.
+        {allPosts.length} {allPosts.length === 1 ? 'article' : 'articles'} and counting.
       </p>
-    </header>
 
-    {posts.length === 0 ? (
-      <p class="empty-state">No posts published yet. Check back soon.</p>
-    ) : (
-      <ul class="post-list" role="list">
-        {posts.map((post) => (
-          <li>
-            <Card
-              title={post.data.title}
-              description={post.data.description}
-              href={`/blog/${post.slug}`}
-              pubDate={post.data.pubDate}
-            />
-          </li>
-        ))}
-      </ul>
+      <!-- Tags -->
+      {allTags.length > 0 && (
+        <div class="tags" aria-label="Topics covered">
+          {allTags.map((tag) => (
+            <span class="tag">{tag}</span>
+          ))}
+        </div>
+      )}
+    </div>
+  </section>
+
+  <div class="container page-body">
+
+    <!-- Featured post -->
+    {featured && (
+      <section class="featured-section" aria-labelledby="featured-heading">
+        <h2 id="featured-heading" class="section-label">Latest</h2>
+        <article class="featured-card" aria-labelledby="featured-post-title">
+          <div class="featured-meta">
+            <time datetime={featured.data.pubDate.toISOString()}>
+              {featured.data.pubDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+            </time>
+            <div class="featured-tags">
+              {featured.data.tags.map((t) => <span class="tag tag-sm">{t}</span>)}
+            </div>
+          </div>
+          <h3 id="featured-post-title" class="featured-title">
+            <a href={`/blog/${featured.slug}`}>{featured.data.title}</a>
+          </h3>
+          <p class="featured-desc">{featured.data.description}</p>
+          <a href={`/blog/${featured.slug}`} class="featured-link" aria-label={`Read "${featured.data.title}"`}>
+            Read article <span aria-hidden="true">&rarr;</span>
+          </a>
+        </article>
+      </section>
     )}
+
+    <!-- All other posts -->
+    {rest.length > 0 && (
+      <section class="all-posts-section" aria-labelledby="all-posts-heading">
+        <h2 id="all-posts-heading" class="section-label">All posts</h2>
+        {rest.length === 0 ? (
+          <p class="empty-state">No more posts yet. Check back soon.</p>
+        ) : (
+          <ul class="post-list" role="list">
+            {rest.map((post) => (
+              <li>
+                <Card
+                  title={post.data.title}
+                  description={post.data.description}
+                  href={`/blog/${post.slug}`}
+                  pubDate={post.data.pubDate}
+                />
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
+    )}
+
+    {allPosts.length === 0 && (
+      <p class="empty-state">No posts published yet. Check back soon.</p>
+    )}
+
   </div>
 </BaseLayout>
 
 <style>
-  .page-wrapper {
+  /* ── Blog hero ────────────────────────────────────── */
+  .blog-hero {
+    padding-block: var(--space-16) var(--space-12);
+    border-bottom: 1px solid var(--color-border);
+    background: linear-gradient(
+      to bottom,
+      color-mix(in srgb, var(--color-accent) 4%, var(--color-bg)),
+      var(--color-bg)
+    );
+  }
+
+  .eyebrow {
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--color-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: var(--space-3);
+  }
+
+  h1 {
+    font-size: clamp(var(--text-3xl), 5vw, 3.5rem);
+    letter-spacing: -0.03em;
+    margin-bottom: var(--space-4);
+  }
+
+  .subtitle {
+    font-size: var(--text-lg);
+    color: var(--color-text-muted);
+    max-width: 48ch;
+    line-height: 1.6;
+    margin-bottom: var(--space-6);
+  }
+
+  /* ── Tags ─────────────────────────────────────────── */
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  .tag {
+    display: inline-block;
+    font-size: var(--text-sm);
+    font-weight: 500;
+    padding: var(--space-1) var(--space-3);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 9999px;
+    color: var(--color-text-muted);
+    transition: border-color 0.15s, color 0.15s;
+  }
+
+  .tag:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+  }
+
+  .tag-sm {
+    font-size: 0.75rem;
+    padding: 0.1rem var(--space-2);
+  }
+
+  /* ── Page body ────────────────────────────────────── */
+  .page-body {
     padding-block: var(--space-12);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-12);
   }
 
-  .page-header {
-    margin-bottom: var(--space-8);
+  .section-label {
+    font-size: var(--text-sm);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-6);
   }
 
-  .page-subtitle {
-    margin-top: var(--space-3);
-    font-size: var(--text-lg);
+  /* ── Featured post ────────────────────────────────── */
+  .featured-card {
+    padding: var(--space-8);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .featured-card:hover {
+    border-color: var(--color-primary);
+    box-shadow: var(--shadow-md);
+  }
+
+  .featured-meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+    font-size: var(--text-sm);
     color: var(--color-text-muted);
   }
 
-  .empty-state {
-    color: var(--color-text-muted);
-    font-size: var(--text-lg);
+  .featured-tags {
+    display: flex;
+    gap: var(--space-2);
+    flex-wrap: wrap;
   }
 
+  .featured-title {
+    font-size: clamp(var(--text-xl), 3vw, var(--text-3xl));
+    font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+  }
+
+  .featured-title a {
+    color: var(--color-text);
+    text-decoration: none;
+  }
+
+  .featured-title a:hover {
+    color: var(--color-primary);
+  }
+
+  .featured-desc {
+    font-size: var(--text-base);
+    color: var(--color-text-muted);
+    line-height: 1.65;
+    max-width: 60ch;
+  }
+
+  .featured-link {
+    display: inline-block;
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--color-primary);
+    text-decoration: none;
+    margin-top: var(--space-2);
+  }
+
+  .featured-link:hover {
+    text-decoration: underline;
+  }
+
+  /* ── Post grid ────────────────────────────────────── */
   .post-list {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: var(--space-6);
     list-style: none;
+  }
+
+  /* ── Empty state ──────────────────────────────────── */
+  .empty-state {
+    color: var(--color-text-muted);
+    font-size: var(--text-lg);
   }
 </style>
