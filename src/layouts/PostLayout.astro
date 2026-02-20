@@ -23,7 +23,7 @@ const formattedUpdated = updatedDate?.toLocaleDateString('en-US', {
   <div class="container post-wrapper">
     <article class="post" aria-labelledby="post-title">
       <header class="post-header">
-        <a href="/blog" class="back-link">
+        <a href={`${import.meta.env.BASE_URL}blog`} class="back-link">
           <span aria-hidden="true">&larr;</span> All posts
         </a>
 
