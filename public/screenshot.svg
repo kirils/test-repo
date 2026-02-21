@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 750" role="img" aria-label="AstroDemo website screenshot">
+  <!-- Browser frame -->
+  <rect width="1200" height="750" rx="12" fill="#1a1a2e"/>
+  <!-- Browser chrome bar -->
+  <rect width="1200" height="44" rx="12" fill="#16213e"/>
+  <rect y="36" width="1200" height="8" fill="#16213e"/>
+  <!-- Traffic lights -->
+  <circle cx="24" cy="22" r="7" fill="#ff5f57"/>
+  <circle cx="48" cy="22" r="7" fill="#febc2e"/>
+  <circle cx="72" cy="22" r="7" fill="#28c840"/>
+  <!-- URL bar -->
+  <rect x="160" y="10" width="680" height="24" rx="12" fill="#0d1117"/>
+  <text x="500" y="26" text-anchor="middle" font-family="monospace" font-size="11" fill="#8888aa">https://kirils.github.io/test-repo</text>
+
+  <!-- ── Site content ────────────────────── -->
+
+  <!-- Sticky nav header -->
+  <rect y="44" width="1200" height="52" fill="rgba(7,7,15,0.9)"/>
+  <line x1="0" y1="96" x2="1200" y2="96" stroke="#222236" stroke-width="1"/>
+  <!-- Logo icon (lightning bolt) -->
+  <polygon points="52,60 44,76 52,76 50,88 62,72 54,72" fill="#60a5fa"/>
+  <!-- Site name -->
+  <text x="70" y="76" font-family="sans-serif" font-size="16" font-weight="800" fill="#e8e8f4" letter-spacing="-0.5">Astro<tspan fill="#60a5fa">Demo</tspan></text>
+  <!-- Nav links -->
+  <text x="820" y="76" font-family="sans-serif" font-size="13" fill="#8888ac">Home</text>
+  <text x="876" y="76" font-family="sans-serif" font-size="13" fill="#8888ac">Services</text>
+  <text x="946" y="76" font-family="sans-serif" font-size="13" fill="#8888ac">Blog</text>
+  <text x="996" y="76" font-family="sans-serif" font-size="13" fill="#8888ac">Contact</text>
+  <text x="1052" y="76" font-family="sans-serif" font-size="13" fill="#8888ac">About</text>
+  <!-- Dark mode toggle -->
+  <rect x="1110" y="62" width="32" height="32" rx="6" fill="#10101c" stroke="#222236" stroke-width="1"/>
+  <path d="M1126 70 a8 8 0 1 0 8 8 6 6 0 1 1-8-8z" fill="none" stroke="#8888ac" stroke-width="1.5"/>
+
+  <!-- Hero section - dark space background -->
+  <rect y="96" width="1200" height="380" fill="#07070f"/>
+  <!-- Stars scattered -->
+  <circle cx="120" cy="130" r="1.2" fill="white" opacity="0.7"/>
+  <circle cx="340" cy="150" r="0.8" fill="white" opacity="0.5"/>
+  <circle cx="580" cy="120" r="1.5" fill="white" opacity="0.6"/>
+  <circle cx="780" cy="160" r="1" fill="white" opacity="0.8"/>
+  <circle cx="950" cy="140" r="1.2" fill="white" opacity="0.4"/>
+  <circle cx="1080" cy="170" r="0.8" fill="white" opacity="0.7"/>
+  <circle cx="200" cy="200" r="1" fill="white" opacity="0.5"/>
+  <circle cx="450" cy="220" r="1.5" fill="white" opacity="0.3"/>
+  <circle cx="700" cy="190" r="1" fill="white" opacity="0.6"/>
+  <circle cx="880" cy="240" r="0.8" fill="white" opacity="0.5"/>
+  <circle cx="1100" cy="210" r="1.2" fill="white" opacity="0.4"/>
+  <circle cx="60" cy="280" r="1" fill="white" opacity="0.6"/>
+  <circle cx="300" cy="310" r="1.5" fill="white" opacity="0.4"/>
+  <circle cx="550" cy="290" r="0.8" fill="white" opacity="0.7"/>
+  <circle cx="800" cy="320" r="1" fill="white" opacity="0.5"/>
+  <circle cx="1020" cy="300" r="1.2" fill="white" opacity="0.6"/>
+  <circle cx="160" cy="370" r="0.8" fill="white" opacity="0.3"/>
+  <circle cx="420" cy="380" r="1" fill="white" opacity="0.5"/>
+  <circle cx="660" cy="360" r="1.5" fill="white" opacity="0.4"/>
+  <circle cx="900" cy="390" r="0.8" fill="white" opacity="0.6"/>
+  <circle cx="1150" cy="370" r="1" fill="white" opacity="0.5"/>
+  <!-- Badge -->
+  <rect x="68" y="140" width="110" height="22" rx="11" fill="rgba(96,165,250,0.12)" stroke="rgba(96,165,250,0.3)" stroke-width="1"/>
+  <text x="123" y="155" text-anchor="middle" font-family="sans-serif" font-size="10" font-weight="600" fill="#93c5fd">Built with Astro 4</text>
+  <!-- Hero title -->
+  <text x="68" y="215" font-family="sans-serif" font-size="52" font-weight="800" fill="white" letter-spacing="-2">Fast websites,</text>
+  <text x="68" y="272" font-family="sans-serif" font-size="52" font-weight="800" fill="white" letter-spacing="-2">by default.</text>
+  <!-- Hero description -->
+  <text x="68" y="314" font-family="sans-serif" font-size="15" fill="rgba(255,255,255,0.6)">AstroDemo is an open-source starter demonstrating Astro's island</text>
+  <text x="68" y="334" font-family="sans-serif" font-size="15" fill="rgba(255,255,255,0.6)">architecture and zero-JS-by-default static site generation.</text>
+  <!-- CTA buttons -->
+  <rect x="68" y="356" width="130" height="38" rx="6" fill="#3b82f6"/>
+  <text x="133" y="380" text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="600" fill="white">Read the blog</text>
+  <rect x="214" y="356" width="150" height="38" rx="6" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+  <text x="289" y="380" text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="600" fill="rgba(255,255,255,0.9)">About this project</text>
+  <!-- Scroll chevron -->
+  <polyline points="596,440 600,448 604,440" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2" stroke-linecap="round"/>
+
+  <!-- Stats bar -->
+  <rect y="476" width="1200" height="72" fill="#10101c"/>
+  <line x1="0" y1="476" x2="1200" y2="476" stroke="#222236" stroke-width="1"/>
+  <line x1="0" y1="548" x2="1200" y2="548" stroke="#222236" stroke-width="1"/>
+  <!-- Stats -->
+  <text x="180" y="507" text-anchor="middle" font-family="sans-serif" font-size="20" font-weight="800" fill="#60a5fa">0 KB</text>
+  <text x="180" y="527" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#8888ac">JavaScript shipped by default</text>
+  <line x1="380" y1="490" x2="380" y2="534" stroke="#222236" stroke-width="1"/>
+  <text x="520" y="507" text-anchor="middle" font-family="sans-serif" font-size="20" font-weight="800" fill="#60a5fa">100</text>
+  <text x="520" y="527" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#8888ac">Lighthouse performance score</text>
+  <line x1="720" y1="490" x2="720" y2="534" stroke="#222236" stroke-width="1"/>
+  <text x="860" y="507" text-anchor="middle" font-family="sans-serif" font-size="20" font-weight="800" fill="#60a5fa">WCAG AA</text>
+  <text x="860" y="527" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#8888ac">Accessibility standard</text>
+  <line x1="1060" y1="490" x2="1060" y2="534" stroke="#222236" stroke-width="1"/>
+  <text x="1130" y="507" text-anchor="middle" font-family="sans-serif" font-size="20" font-weight="800" fill="#60a5fa">∞</text>
+  <text x="1130" y="527" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#8888ac">Deploy targets</text>
+
+  <!-- Features section - 3 cards -->
+  <rect y="548" width="1200" height="202" fill="#07070f"/>
+  <text x="68" y="584" font-family="sans-serif" font-size="22" font-weight="700" fill="#e8e8f4">Why Astro?</text>
+  <!-- Card 1 -->
+  <rect x="68" y="600" width="334" height="130" rx="10" fill="#10101c" stroke="#222236" stroke-width="1"/>
+  <polygon points="90,622 82,638 90,638 89,650 101,634 93,634" fill="#60a5fa"/>
+  <text x="90" y="666" font-family="sans-serif" font-size="14" font-weight="600" fill="#e8e8f4">Zero JS by default</text>
+  <text x="90" y="686" font-family="sans-serif" font-size="11" fill="#8888ac">Pages ship as pure HTML and CSS.</text>
+  <text x="90" y="702" font-family="sans-serif" font-size="11" fill="#8888ac">JavaScript is opt-in, per component.</text>
+  <!-- Card 2 -->
+  <rect x="434" y="600" width="334" height="130" rx="10" fill="#10101c" stroke="#222236" stroke-width="1"/>
+  <text x="454" y="650" font-family="sans-serif" font-size="24" fill="#60a5fa">📄</text>
+  <text x="454" y="666" font-family="sans-serif" font-size="14" font-weight="600" fill="#e8e8f4">Content Collections</text>
+  <text x="454" y="686" font-family="sans-serif" font-size="11" fill="#8888ac">Type-safe Markdown with Zod schema</text>
+  <text x="454" y="702" font-family="sans-serif" font-size="11" fill="#8888ac">validation at build time.</text>
+  <!-- Card 3 -->
+  <rect x="800" y="600" width="334" height="130" rx="10" fill="#10101c" stroke="#222236" stroke-width="1"/>
+  <text x="820" y="650" font-family="sans-serif" font-size="24" fill="#60a5fa">🌍</text>
+  <text x="820" y="666" font-family="sans-serif" font-size="14" font-weight="600" fill="#e8e8f4">Deploy anywhere</text>
+  <text x="820" y="686" font-family="sans-serif" font-size="11" fill="#8888ac">Netlify, Vercel, GitHub Pages,</text>
+  <text x="820" y="702" font-family="sans-serif" font-size="11" fill="#8888ac">or a plain S3 bucket.</text>
+</svg>
