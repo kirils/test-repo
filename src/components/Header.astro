@@ -5,17 +5,17 @@ const navLinks = [
   { href: siteUrl(''),         label: 'Home'     },
   { href: siteUrl('services'), label: 'Services' },
   { href: siteUrl('blog'),     label: 'Blog'     },
-  { href: siteUrl('contact'),  label: 'Contact'  },
   { href: siteUrl('about'),    label: 'About'    },
+  { href: siteUrl('contact'),  label: 'Contact'  },
 ];
 
 const { pathname } = Astro.url;
-// Normalize trailing slash so /test-repo/ and /test-repo both match
 const normalize = (p: string) => p.length > 1 && p.endsWith('/') ? p.slice(0, -1) : p;
 ---
 
 <header class="site-header">
   <div class="container header-inner">
+
     <a href={siteUrl('')} class="site-name" aria-label="Astro Demo — home">
       <svg class="logo-icon" xmlns="http://www.w3.org/2000/svg" width="22" height="22"
            viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -24,7 +24,8 @@ const normalize = (p: string) => p.length > 1 && p.endsWith('/') ? p.slice(0, -1
       Astro<span class="accent">Demo</span>
     </a>
 
-    <nav aria-label="Main navigation">
+    <!-- Desktop navigation (hidden on mobile) -->
+    <nav class="nav-desktop" aria-label="Main navigation">
       <ul role="list" class="nav-list">
         {navLinks.map(({ href, label }) => (
           <li>
@@ -32,45 +33,103 @@ const normalize = (p: string) => p.length > 1 && p.endsWith('/') ? p.slice(0, -1
               href={href}
               class:list={['nav-link', { active: normalize(pathname) === normalize(href) }]}
               aria-current={normalize(pathname) === normalize(href) ? 'page' : undefined}
-            >
-              {label}
-            </a>
+            >{label}</a>
           </li>
         ))}
       </ul>
     </nav>
 
-    <button
-      id="theme-toggle"
-      class="theme-toggle"
-      aria-label="Toggle dark mode"
-      type="button"
-    >
-      <!-- Sun icon — shown when in dark mode -->
-      <svg class="icon icon-sun" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
-           viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <circle cx="12" cy="12" r="5"/>
-        <line x1="12" y1="1" x2="12" y2="3"/>
-        <line x1="12" y1="21" x2="12" y2="23"/>
-        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
-        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
-        <line x1="1" y1="12" x2="3" y2="12"/>
-        <line x1="21" y1="12" x2="23" y2="12"/>
-        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
-        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
-      </svg>
-      <!-- Moon icon — shown when in light mode -->
-      <svg class="icon icon-moon" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
-           viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-      </svg>
-    </button>
+    <div class="header-controls">
+      <!-- Dark mode toggle -->
+      <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode" type="button">
+        <svg class="icon icon-sun" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="5"/>
+          <line x1="12" y1="1" x2="12" y2="3"/>
+          <line x1="12" y1="21" x2="12" y2="23"/>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+          <line x1="1" y1="12" x2="3" y2="12"/>
+          <line x1="21" y1="12" x2="23" y2="12"/>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+        <svg class="icon icon-moon" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+      </button>
+
+      <!-- Mobile menu trigger — uses the Popover API (no JS needed for toggle) -->
+      <button
+        class="menu-toggle"
+        popovertarget="mobile-nav"
+        aria-label="Open navigation menu"
+        aria-haspopup="dialog"
+        type="button"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22"
+             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="3" y1="6"  x2="21" y2="6"/>
+          <line x1="3" y1="12" x2="21" y2="12"/>
+          <line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>
+      </button>
+    </div>
+
   </div>
 </header>
 
+<!-- ============================================================
+     Mobile navigation drawer — Popover API (Baseline 2024)
+     Handles: Escape-to-close, click-outside-to-close, focus trap,
+     top-layer rendering. Zero JavaScript required.
+     ============================================================ -->
+<div id="mobile-nav" popover class="mobile-nav">
+  <div class="mobile-nav-header">
+    <a href={siteUrl('')} class="site-name" aria-label="Astro Demo — home">
+      <svg class="logo-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+           viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+      </svg>
+      Astro<span class="accent">Demo</span>
+    </a>
+    <button
+      popovertarget="mobile-nav"
+      popovertargetaction="hide"
+      class="mobile-close"
+      aria-label="Close navigation menu"
+      type="button"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22"
+           viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <line x1="18" y1="6"  x2="6"  y2="18"/>
+        <line x1="6"  y1="6"  x2="18" y2="18"/>
+      </svg>
+    </button>
+  </div>
+
+  <nav aria-label="Mobile navigation">
+    <ul role="list" class="mobile-nav-list">
+      {navLinks.map(({ href, label }) => (
+        <li>
+          <a
+            href={href}
+            class:list={['mobile-nav-link', { active: normalize(pathname) === normalize(href) }]}
+            aria-current={normalize(pathname) === normalize(href) ? 'page' : undefined}
+          >{label}</a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+</div>
+
 <style>
+  /* ── Header shell ── */
   .site-header {
     border-bottom: 1px solid color-mix(in srgb, var(--color-border) 80%, transparent);
     background: color-mix(in srgb, var(--color-bg) 82%, transparent);
@@ -87,9 +146,10 @@ const normalize = (p: string) => p.length > 1 && p.endsWith('/') ? p.slice(0, -1
     align-items: center;
     justify-content: space-between;
     padding-block: var(--space-4);
-    gap: var(--space-6);
+    gap: var(--space-4);
   }
 
+  /* ── Logo / site name ── */
   .site-name {
     display: flex;
     align-items: center;
@@ -102,23 +162,17 @@ const normalize = (p: string) => p.length > 1 && p.endsWith('/') ? p.slice(0, -1
     flex-shrink: 0;
   }
 
-  .logo-icon {
-    color: var(--color-primary);
-    flex-shrink: 0;
-  }
+  .site-name:hover { color: var(--color-text); text-decoration: none; }
 
-  .site-name:hover {
-    color: var(--color-text);
-    text-decoration: none;
-  }
+  .logo-icon { color: var(--color-primary); flex-shrink: 0; }
+  .accent    { color: var(--color-primary); }
 
-  .accent {
-    color: var(--color-primary);
-  }
+  /* ── Desktop nav ── */
+  .nav-desktop { display: flex; }
 
   .nav-list {
     display: flex;
-    gap: var(--space-2);
+    gap: var(--space-1);
     list-style: none;
   }
 
@@ -139,12 +193,17 @@ const normalize = (p: string) => p.length > 1 && p.endsWith('/') ? p.slice(0, -1
     text-decoration: none;
   }
 
-  .nav-link.active {
-    color: var(--color-primary);
-    font-weight: 600;
+  .nav-link.active { color: var(--color-primary); font-weight: 600; }
+
+  /* ── Right-side controls (theme + hamburger) ── */
+  .header-controls {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    flex-shrink: 0;
   }
 
-  /* Dark mode toggle button */
+  /* ── Theme toggle ── */
   .theme-toggle {
     display: flex;
     align-items: center;
@@ -160,17 +219,152 @@ const normalize = (p: string) => p.length > 1 && p.endsWith('/') ? p.slice(0, -1
     transition: background-color 0.15s, color 0.15s, border-color 0.15s;
   }
 
-  .theme-toggle:hover {
-    color: var(--color-text);
-    background: var(--color-border);
-  }
+  .theme-toggle:hover { color: var(--color-text); background: var(--color-border); }
 
-  /* Toggle icon visibility based on active theme */
   .icon-sun  { display: none; }
   .icon-moon { display: block; }
-
   :global([data-theme="dark"]) .icon-sun  { display: block; }
   :global([data-theme="dark"]) .icon-moon { display: none; }
+
+  /* ── Hamburger button (mobile only) ── */
+  .menu-toggle {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    background: var(--color-surface);
+    color: var(--color-text-muted);
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: background-color 0.15s, color 0.15s;
+  }
+
+  .menu-toggle:hover { color: var(--color-text); background: var(--color-border); }
+
+  /* ── Mobile breakpoint ── */
+  @media (max-width: 40rem) {
+    .nav-desktop { display: none; }
+    .menu-toggle { display: flex; }
+  }
+
+  /* ================================================================
+     Mobile nav drawer — Popover API
+     The browser renders `[popover]` in the top layer (above everything).
+     We override UA defaults to create a right-side slide-in drawer.
+     ================================================================ */
+  .mobile-nav {
+    /* Override UA popover defaults */
+    position: fixed;
+    inset: 0 0 0 auto;   /* flush to the right edge */
+    margin: 0;
+    width: min(22rem, 100vw);
+    height: 100dvh;
+    max-width: none;
+    max-height: none;
+    border: none;
+    border-left: 1px solid var(--color-border);
+    background: var(--color-bg);
+    padding: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+
+    /* Slide-in animation using @starting-style + allow-discrete */
+    translate: 100% 0;
+    transition:
+      translate 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+      overlay 0.3s allow-discrete,
+      display 0.3s allow-discrete;
+  }
+
+  .mobile-nav:popover-open { translate: 0 0; }
+
+  /* Entry keyframe — browser reads this before :popover-open styles apply */
+  @starting-style {
+    .mobile-nav:popover-open { translate: 100% 0; }
+  }
+
+  /* Backdrop — dimmed overlay behind the drawer */
+  .mobile-nav::backdrop {
+    background: rgb(0 0 0 / 0.45);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    opacity: 0;
+    transition:
+      opacity 0.3s ease,
+      overlay 0.3s allow-discrete,
+      display 0.3s allow-discrete;
+  }
+
+  .mobile-nav:popover-open::backdrop { opacity: 1; }
+
+  @starting-style {
+    .mobile-nav:popover-open::backdrop { opacity: 0; }
+  }
+
+  /* ── Drawer header (logo + close button) ── */
+  .mobile-nav-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-4) var(--space-6);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  /* Reuse .site-name styles from header (scoped copy) */
+  .mobile-nav-header .site-name {
+    font-size: var(--text-lg);
+  }
+
+  .mobile-close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    background: transparent;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    transition: background-color 0.15s, color 0.15s;
+  }
+
+  .mobile-close:hover { color: var(--color-text); background: var(--color-surface); }
+
+  /* ── Drawer nav links ── */
+  .mobile-nav-list {
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    padding: var(--space-4);
+    gap: var(--space-1);
+  }
+
+  .mobile-nav-link {
+    display: block;
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    color: var(--color-text-muted);
+    font-size: var(--text-base);
+    font-weight: 500;
+    transition: color 0.15s, background-color 0.15s;
+  }
+
+  .mobile-nav-link:hover {
+    color: var(--color-text);
+    background-color: var(--color-surface);
+    text-decoration: none;
+  }
+
+  .mobile-nav-link.active {
+    color: var(--color-primary);
+    background-color: color-mix(in srgb, var(--color-primary) 8%, transparent);
+    font-weight: 600;
+  }
 </style>
 
 <script>
