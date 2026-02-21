@@ -40,6 +40,10 @@ jobs:
 
       - name: Build
         run: npm run build
+        env:
+          # Set the Astro base path for GitHub Pages deployment.
+          # Remove or change this variable when deploying to a different host.
+          SITE_BASE: test-repo
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
