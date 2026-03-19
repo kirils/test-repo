@@ -2,7 +2,6 @@
 title: "Kubernetes Gateway API: The Future of Ingress"
 description: "An introduction to the Kubernetes Gateway API, how it improves on Ingress, and how to get started with it in your cluster."
 pubDate: 2026-03-19
-draft: true
 tags: ["kubernetes", "networking", "gateway-api", "cloud-native"]
 ---
 
